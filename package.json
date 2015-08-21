@@ -1,0 +1,44 @@
+{
+  "name": "what-the-flexbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babelify": "^6.2.0",
+    "browser-sync": "^2.2.1",
+    "browserify": "^11.0.0",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^2.3.1",
+    "gulp-clean": "^0.3.1",
+    "gulp-concat": "^2.5.0",
+    "gulp-debug": "^2.0.1",
+    "gulp-imagemin": "^2.2.0",
+    "gulp-jade": "^1.0.0",
+    "gulp-load-plugins": "^0.8.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-react": "^3.0.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-rsync": "0.0.5",
+    "gulp-sftp": "^0.1.4",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-stylus": "^2.0.1",
+    "gulp-uglify": "^1.1.0",
+    "gulp-util": "^3.0.6",
+    "imagemin-pngquant": "^4.0.0",
+    "lodash": "^3.10.1",
+    "react": "^0.13.3",
+    "react-router": "^0.13.3",
+    "reactify": "^1.1.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "md5": "^2.0.0"
+  }
+}

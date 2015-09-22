@@ -89,6 +89,9 @@ $(function() {
 
     // mark as a conversion in google analytics
     ga('send', 'event', 'download','what the flexbox');
+    // mark as conversion in FB
+    window._fbq = window._fbq || [];
+    window._fbq.push(['track', 'Signup', {}]);
     
   });
 
@@ -134,6 +137,9 @@ ga('send', 'pageview');
     s.parentNode.insertBefore(fbds, s);
     _fbq.loaded = true;
   }
+  _fbq.push(['addPixelId', '1038184196213607']);
+  window._fbq.push(['track', 'PixelInitialized', {}]);
+  window._fbq.push(['track', 'View', {}]);
 })();
 
 } // end module.exports

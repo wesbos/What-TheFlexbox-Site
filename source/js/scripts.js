@@ -80,7 +80,7 @@ $(function() {
     });
 
     // send out the email
-    $.getJSON('http://wesbos.com/mc/send-flexbox.php?callback=?&email=' + email,function(res){
+    $.getJSON('http://wesbos.com/mc/send-flexbox.php?callback=?&email=' + encodeURIComponent(email),function(res){
       console.log(res);
     });
 
@@ -101,7 +101,7 @@ $(function() {
   // When the page loads, check if they are authed
   if(localStorage.hash) {
     $('.signup input, .signup label').hide();
-    $('p.details').text('You are authenticated! Happy Watching!');
+    $('p.details:first').text('You are authenticated! Happy Watching!');
   }
 
 });

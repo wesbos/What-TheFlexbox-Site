@@ -13,11 +13,15 @@
 
     <a class="button" href="http://flexbox.io/#/auth/<?php echo md5($_GET['email']); ?>" style="color: #193549;border-bottom: 1px solid #FFE200;background: #FEFF00;text-decoration: none;padding: 10px;display: block;text-align: center;font-size: 20px;font-weight: 600;font-family: sans-serif;">Start Watching the Videos Now</a>
     <br>
-    <a class="button" href="http://flexbox.io/exercises.zip?user=<?php echo md5($_GET['email']); ?>" style="color: #193549;border-bottom: 1px solid #FFE200;background: #FEFF00;text-decoration: none;padding: 10px;display: block;text-align: center;font-size: 20px;font-weight: 600;font-family: sans-serif;">Download the Code Along Exercises</a>
+    <a class="button" href="https://github.com/wesbos/What-The-Flexbox/archive/master.zip" style="color: #193549;border-bottom: 1px solid #FFE200;background: #FEFF00;text-decoration: none;padding: 10px;display: block;text-align: center;font-size: 20px;font-weight: 600;font-family: sans-serif;">Download the Code Along Exercises</a>
 
     <br>
 
     <p style="font-family: sans-serif;line-height: 1.5;">As always, I'd love to hear any feedback you have - just hit reply!</p>
+    
+    <p style="font-family: sans-serif;line-height: 1.5;">Make sure to checkout <a href="https://ReactForBeginners.com">React For Beginners</a> and <a href="https://SublimeTextPowerUser.com">Sublime Text Power User</a>.</p>
+
+
 
 
   </div>

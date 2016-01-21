@@ -13,7 +13,7 @@
 
     <a class="button" href="http://flexbox.io/#/auth/<?php echo md5($_GET['email']); ?>">Start Watching the Videos Now</a>
     <br>
-    <a class="button" href="http://flexbox.io/exercises.zip?user=<?php echo md5($_GET['email']); ?>">Download the Code Along Exercises</a>
+    <a class="button" href="https://github.com/wesbos/What-The-Flexbox/archive/master.zip">Download the Code Along Exercises</a>
 
     <br>
 

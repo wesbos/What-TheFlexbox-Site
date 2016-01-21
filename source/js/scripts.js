@@ -4,6 +4,9 @@ module.exports = function() {
 
 $(function() {
 
+  // update the sub count
+  $.getJSON('http://bostype.com/sendy/subscriberscount?i=1&l=1',function(data) { $('.sub-count').text(data.count) });
+
   // fancy gradients 
   var deg = -175;
   var percent = 0;

@@ -19,7 +19,7 @@
 
     <p style="font-family: sans-serif;line-height: 1.5;">As always, I'd love to hear any feedback you have - just hit reply!</p>
     
-    <p style="font-family: sans-serif;line-height: 1.5;">Keep up your learning with <a style="color: #193549;border-bottom: 1px solid #FFE200;background: #FEFF00;text-decoration: none;" href="https://ReactForBeginners.com">React For Beginners</a> and <a style="color: #193549;border-bottom: 1px solid #FFE200;background: #FEFF00;text-decoration: none;" href="https://SublimeTextPowerUser.com">Sublime Text Power User</a>.</p>
+    <p style="font-family: sans-serif;line-height: 1.5;">Keep up your learning with <a style="color: #193549;border-bottom: 1px solid #FFE200;background: #FEFF00;text-decoration: none;" href="https://ReactForBeginners.com">React For Beginners</a> and <a style="color: #193549;border-bottom: 1px solid #FFE200;background: #FEFF00;text-decoration: none;" href="https://SublimeTextBook.com">Sublime Text Power User</a>.</p>
 
 
   </div>

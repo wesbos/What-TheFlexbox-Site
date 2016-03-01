@@ -1,27 +1,23 @@
-var React = require('react');
-var Router = require('react-router');
-var DefaultRoute = Router.DefaultRoute;
-var Route = Router.Route;
-var RouteHandler = Router.RouteHandler;
+import React from 'react';
+import { render } from 'react-dom'
+import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router'
+import polyfill from './polyfill';
+
+polyfill();
 
 // cowboy in my previous jQuery
-var scripts = require('./scripts')();
-var data = require('./data');
+const scripts = require('./scripts')();
+const data = require('./data');
 
-const _ = {
-  findWhere : require('lodash/collection/findWhere'),
-  findIndex : require('lodash/array/findIndex')
-}
- 
 /*
   Videos Component for displaying a list of all videos
 */
-var Videos = React.createClass({
+const Videos = React.createClass({
   render : function() {
     return (
       <div className="videos">
-        {this.props.videos.map(function(vid, i){
-          return <Video vid={vid} i={i} key={i}/>
+        {this.props.videos.map((vid, i) => {
+          return <Video {...this.props} vid={vid} i={i} key={i}/>
         })}
       </div>
     )
@@ -32,12 +28,16 @@ var Videos = React.createClass({
 /*
   Listed Video Component
 */
-var Video = React.createClass({
+const Video = React.createClass({
   updateHash : function(e) {
     e.preventDefault();
+    const { vid } = this.props;
+
     // check if they have "authenticated"
     if(!!localStorage.hash) {
-      window.location.hash = "#/view/" + this.props.vid.id;
+      // TODO: Account for these old urls
+      // window.location.hash = "#/view/" + this.props.vid.id;
+      this.context.router.push(`/view/${vid.id}`);
       $("html, body").animate({ scrollTop: $('#watch').position().top });
     } else  {
       $("html, body").animate({ scrollTop: $('.signup').position().top }, 1000);
@@ -60,6 +60,9 @@ var Video = React.createClass({
           </a>
       </div>
     )
+  },
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
   }
 });
 
@@ -67,10 +70,10 @@ var Video = React.createClass({
   Viewer Component
 */
 
-var Viewer = React.createClass({
-  mixins : [Router.State, Router.Navigation],
+const Viewer = React.createClass({
+
   getInitialState: function() {
-    var params = this.getParams();
+    var params = this.props.params;
     return {
        videos : data.videos,
        video : data.videos[0],
@@ -79,21 +82,23 @@ var Viewer = React.createClass({
   },
   // This gets called right before render - we use it to set some state
   componentWillMount : function() {
-    console.log("viewer updating..");
+    // console.log("viewer updating..");
   },
   goToVideo : function(videoid, e) {
     e.preventDefault();
-    this.transitionTo('viewer', {videoid: videoid});
+    this.context.router.push(`/view/${videoid}`);
     this.setState({videoid : videoid});
   },
   renderNavButtons : function() {
-    var params = this.getParams();
+    var params = this.props.params;
     var videoid = this.state.videoid;
-    var index = _.findIndex(this.state.videos,{id : this.state.videoid});
-    
+
+    // var index = findIndex(this.state.videos,{id : this.state.videoid});
+    var index = this.state.videos.findIndex(video => video.id === this.state.videid);
+
     var prevVideo = this.state.videos[index - 1];
     var prevButton = (prevVideo ? <a onClick={this.goToVideo.bind(null,prevVideo.id)} href={`#/view/${prevVideo.id}`}>← {prevVideo.title}</a> : '');
-    
+
     var nextVideo = this.state.videos[index + 1];
     var nextButton = (nextVideo ? <a onClick={this.goToVideo.bind(null,nextVideo.id)} href={`#/view/${nextVideo.id}`}>{nextVideo.title} → </a> : '');
 
@@ -105,18 +110,10 @@ var Viewer = React.createClass({
     )
   },
   render : function() {
-    var params = this.getParams();
+    var params = this.props.params;
     var videoid = this.state.videoid;
-    
-    var video = _.findWhere(this.state.videos,{id : videoid});
-    
+    var video = this.state.videos.find(video => video.id === videoid)
     var autoplay = (videoid === this.state.videos[0].id ? 0 : 1);
-
-    // var video = (this.state.videos.filter(function(video) {
-    //   if(video.id === videoid) {
-    //     return video;
-    //   }
-    // }))[0];
 
     return (
       <div className="viewer">
@@ -126,10 +123,13 @@ var Viewer = React.createClass({
           <p>{video.description}</p>
           {this.renderNavButtons()}
         </div>
-        <Videos videos={this.state.videos} />
+        <Videos {...this.props} videos={this.state.videos} />
       </div>
 
     )
+  },
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
   }
 });
 
@@ -148,61 +148,61 @@ var Player = React.createClass({
         <iframe width="560" height="315" src={this.generateURL()} frameBorder="0" allowFullScreen></iframe>
       </div>
     )
-  } 
+  }
 });
 
 /*
   Authentication
 */
 
-var Auth = React.createClass({
-  mixins : [Router.State, Router.Navigation],
+const Auth = React.createClass({
   getInitialState : function() {
     return {
       videos : data.videos
     }
   },
-  render : function() {
-    var params = this.getParams();
-    localStorage.hash = params.hash;
-    this.transitionTo('viewer', {videoid: this.state.videos[0].id});
+  componentWillMount() {
+    localStorage.hash = this.props.params.hash;
+    this.context.router.push(`/view/${this.state.videos[0].id}`);
+  },
+  render() {
     return <div></div>
+  },
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
   }
 });
 
-
-/*
-  The main "wrapper" of the app
-  RouteHandler will be replaced with a component 
-*/ 
-
-var Main = React.createClass({
-   mixins : [Router.State],
-   render : function() {
-    var params = this.getParams();
-    // we pass a key here so that the router will trigger a render when we change from /view/1 to /view/2
-    return (
-      <div>
-        <RouteHandler key={params.videoid} />
-      </div>
-    )
-   }
+const Main = React.createClass({
+  // View the key prop so the viewer will re-render on route update
+  render() {
+    return <div>{React.cloneElement(this.props.children, { key: this.props.params.videoid })}</div>
+  },
+  componentWillMount() {
+    var oldURLs = new RegExp(/auth|view/, 'gi');
+    if(window.location.hash && window.location.hash.match(oldURLs)) {
+      const url = window.location.hash.replace('#','');
+      this.context.router.push(`${url}`);
+    }
+  },
+  contextTypes: {
+    location: React.PropTypes.object.isRequired,
+    router: React.PropTypes.object.isRequired
+  }
 });
-
 
 /*
   Router
 */
 
 var routes = (
-  <Route name="app" path="/" handler={Main} ignoreScrollBehavior={true}>
-    <Route name="auth" path="auth/:hash" handler={Auth} />
-    <Route name="viewer" path="view/:videoid" handler={Viewer} />
-    <Route name="video" path="videos" handler={Videos} />
-    <DefaultRoute handler={Viewer} />
-  </Route>
-)
+  <Router history={browserHistory}>
+    <Route path="/" component={Main}>
+      <Route name="auth" path="auth/:hash" component={Auth} />
+      <Route name="view" path="view/:videoid" component={Viewer}></Route>
+      <IndexRoute component={Viewer} />
+    </Route>
+  </Router>
+);
 
-Router.run(routes,function(Root){
-  React.render(<Root />, document.getElementById('watch'));
-});
+render(routes, document.getElementById('watch'));

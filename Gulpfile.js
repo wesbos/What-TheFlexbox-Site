@@ -12,6 +12,7 @@ var babelify = require('babelify');
 var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
 var gutil = require('gulp-util');
+var historyApiFallback = require('connect-history-api-fallback');
 
 /*
   then we load all plugins into the p variable with gulp-load-plugins
@@ -27,27 +28,17 @@ var p = require('gulp-load-plugins')();
 var globs = {
   "scripts" : ['source/js/*.js'],
   "styles"  : ['source/css/style.styl'],
-  "templates"  : ['source/**/*.jade'],
+  "templates"  : ['source/**/*.jade', '!source/**/layout.jade'],
   "images"  : ['source/images/**/*'],
 }
 
-// gulp.task('scripts',function() {
-//   gulp.src(globs.scripts,{ base : 'source/js/' })
-//     .pipe(p.concat('all.js'))
-//     .pipe(gulp.dest('_build/js'))
-//     // .pipe(p.uglify())
-//     // .pipe(p.rename('all.min.js'))
-//     // .pipe(gulp.dest('_build/js'))
-// });
-
 gulp.task('scripts',function() {
-  
+
   // set up the browserify instance on a task basis
   var b = browserify({
     entries: './source/js/viewer.js',
-    debug: true,
-    transform:  [babelify]
-  });
+    debug: true
+  }).transform(babelify, {presets: ["es2015", "react"]});
 
   return b.bundle()
     .pipe(source('app.js'))
@@ -101,12 +92,18 @@ gulp.task('images',function() {
 gulp.task('fonts',function() {
   gulp.src('source/css/fonts/**/*', { base : 'source/css/fonts' })
   .pipe(gulp.dest('_build/css/fonts'))
-})
+});
+
+gulp.task('htaccess',function() {
+  gulp.src('source/.htaccess', { base : 'source/' })
+    .pipe(gulp.dest('_build/'))
+});
 
 // Start the server
 gulp.task('browser-sync', function() {
     browserSync({
         open : false,
+        middleware : [ historyApiFallback() ],
         server: {
             baseDir: "./_build"
         }
@@ -126,10 +123,8 @@ gulp.task('watch', ['browser-sync'] ,function() {
 });
 
 
-
-
 gulp.task('deploy', function() {
-  gulp.src('_build/**', { base : '_build/' })
+  gulp.src('_build/**/*', { base : '_build/' })
     .pipe(p.sftp({
         host: 'bostype.com',
         user : 'bostypec',
@@ -138,4 +133,4 @@ gulp.task('deploy', function() {
 });
 
 // the default tasks runs when you simply type 'gulp'
-gulp.task('default',['styles','fonts','scripts','templates','watch']);
+gulp.task('default',['styles','fonts','scripts','images','templates','htaccess','watch']);

@@ -94,7 +94,7 @@ const Viewer = React.createClass({
     var videoid = this.state.videoid;
 
     // var index = findIndex(this.state.videos,{id : this.state.videoid});
-    var index = this.state.videos.findIndex(video => video.id === this.state.videid);
+    var index = this.state.videos.findIndex(video => video.id === this.state.videoid);
 
     var prevVideo = this.state.videos[index - 1];
     var prevButton = (prevVideo ? <a onClick={this.goToVideo.bind(null,prevVideo.id)} href={`#/view/${prevVideo.id}`}>← {prevVideo.title}</a> : '');
@@ -179,7 +179,7 @@ const Main = React.createClass({
     return <div>{React.cloneElement(this.props.children, { key: this.props.params.videoid })}</div>
   },
   componentWillMount() {
-    var oldURLs = new RegExp(/auth|view/, 'gi');
+    var oldURLs = new RegExp('auth|view', 'gi');
     if(window.location.hash && window.location.hash.match(oldURLs)) {
       const url = window.location.hash.replace('#','');
       this.context.router.push(`${url}`);

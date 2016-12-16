@@ -7,10 +7,10 @@ $(function() {
   // update the sub count
   $.getJSON('http://bostype.com/sendy/subscriberscount?i=1&l=1',function(data) { $('.sub-count').text(data.count) });
 
-  // fancy gradients 
+  // fancy gradients
   var deg = -175;
   var percent = 0;
-  
+
   // window.setInterval(function(){
 
   //   $('body').css({
@@ -25,7 +25,7 @@ $(function() {
 
 
   $('header.top').on('mousemove',function(e){
-    
+
     e.stopPropagation();
 
 
@@ -49,15 +49,15 @@ $(function() {
   $(window).on('deviceorientation',function(e) {
     var x = e.originalEvent.gamma;  // left to right
     var y = e.originalEvent.beta; // front to back
-    
+
     if(window.orientation > 0) {
       var y = e.originalEvent.gamma * -1;  // left to right
-      var x = e.originalEvent.beta; // front to back      
+      var x = e.originalEvent.beta; // front to back
     }
 
     $('h1').css({ 'text-shadow' : x + 'px '+y+'px 0px rgba(0, 0, 0, 0.17)'
     });
-    
+
   });
 
 
@@ -75,12 +75,12 @@ $(function() {
         flexbox : "true"
       },
       success : function(res) {
-        
-      } 
+
+      }
     });
 
     // send out the email
-    $.getJSON('http://wesbos.com/mc/send-flexbox.php?callback=?&email=' + encodeURIComponent(email),function(res){
+    $.getJSON('https://reactforbeginners.com/api/course/'+encodeURIComponent(email)+'/WTF', function(res){
       console.log(res);
     });
 
@@ -95,7 +95,7 @@ $(function() {
     // mark as conversion in FB
     window._fbq = window._fbq || [];
     window._fbq.push(['track', 'Signup', {}]);
-    
+
   });
 
   // When the page loads, check if they are authed

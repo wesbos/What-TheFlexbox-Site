@@ -116,6 +116,8 @@ gulp.task('clean',function() {
     .pipe(p.clean({ force : true }))
 });
 
+
+
 gulp.task('watch', ['browser-sync'] ,function() {
   gulp.watch(globs.scripts,['scripts']);
   gulp.watch(globs.styles,['styles']);
@@ -126,7 +128,7 @@ gulp.task('watch', ['browser-sync'] ,function() {
 gulp.task('deploy', function() {
   gulp.src('_build/**/*', { base : '_build/' })
     .pipe(p.sftp({
-        host: 'bostype.com',
+        host: 'ftp.bostype.com',
         user : 'bostypec',
         remotePath : '/home3/bostypec/www/flexbox'
     }));
